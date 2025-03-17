@@ -1,15 +1,26 @@
-// ignore_for_file: deprecated_member_use, non_constant_identifier_names, sort_child_properties_last, avoid_unnecessary_containers, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
+import 'package:health_reminder/screens/setting_page.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import '../providers/step_count_provider.dart';
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<StepCounterProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Health"),
+        title: const Text("Health Reminder"),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 10,),
+         child: GestureDetector(
+             onTap: (){
+               Navigator.of(context).push(MaterialPageRoute(builder: (_) => SettingsPage()));
+             },
+             child: Icon(Icons.settings,size: 30,)),)],
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -28,12 +39,12 @@ class MainScreen extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 10),
             child: _buildStepsCard(
-              steps: 30000,
+              steps: provider.steps,
               goal: 5000,
               isVisible: true, // Renamed "Check" to "isVisible" for clarity
               cardText: "Today's Steps",
-              calories: 300,
-              distance: 3000,
+              calories: provider.calories.toStringAsFixed(2),
+              distance: provider.distance.toStringAsFixed(2),
               icon: Icons.directions_walk,
               caloriOrMycup: "Calorie",
               distanceOrNextReminder: "Distance",
@@ -51,8 +62,8 @@ class MainScreen extends StatelessWidget {
               goal: 5000,
               isVisible: false,
               cardText: "Water Intake",
-              calories: 200,
-              distance: 3000,
+              calories: '200',
+              distance: '3000',
               icon: Icons.local_drink,
               caloriOrMycup: "My cup",
               distanceOrNextReminder: "Next reminder",
@@ -64,8 +75,8 @@ class MainScreen extends StatelessWidget {
           ),
           SizedBox(height: 10,),
           _buildCustomGauge(58.0,50)
-      
-          
+
+
         ],
       ),
     );
@@ -75,8 +86,8 @@ class MainScreen extends StatelessWidget {
   Widget _buildStepsCard({
     required int steps,
     required int goal,
-    required int calories,
-    required int distance,
+    required String calories,
+    required String distance,
     required IconData icon,
     required String cardText,
     required String caloriOrMycup,
@@ -112,7 +123,7 @@ class MainScreen extends StatelessWidget {
                   if(isVisible)
                   GestureDetector(
                     onTap: () {
-                      
+
                     },
                     child: const Text(
                       "Share",
@@ -178,10 +189,10 @@ class MainScreen extends StatelessWidget {
                           GestureDetector(
                             child: const Icon(Icons.edit, size: 15, color: Colors.cyan),
                             onTap: () {
-                            
+
                             },
                           ),
-                        
+
                         ],
                       ),
                     ),
@@ -206,7 +217,7 @@ class MainScreen extends StatelessWidget {
             isVisible == true  ? SizedBox() :
             Container(
               margin: EdgeInsets.only(left: 6,top: 40),
-              child: ElevatedButton(onPressed: (){}, 
+              child: ElevatedButton(onPressed: (){},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.cyan,
                 minimumSize: Size(350, 45),
@@ -242,8 +253,8 @@ class MainScreen extends StatelessWidget {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: Card(
-      child: Column( 
-        crossAxisAlignment: CrossAxisAlignment.center,   
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text("My Weight", style: TextStyle(
             fontSize: 20,

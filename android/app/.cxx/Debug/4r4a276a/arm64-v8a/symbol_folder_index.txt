@@ -1,0 +1,1 @@
+C:\Users\dell\AndroidStudioProjects\health_reminder\build\app\intermediates\cxx\Debug\4r4a276a\obj\arm64-v8a

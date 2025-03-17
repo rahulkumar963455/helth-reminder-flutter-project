@@ -1,0 +1,1 @@
+C:\Users\dell\AndroidStudioProjects\health_reminder\build\app\intermediates\cxx\Debug\29415f3r\obj\armeabi-v7a

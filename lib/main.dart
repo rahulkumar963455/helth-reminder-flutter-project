@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:health_reminder/screens/user_input_data.dart';
-void main() {
-  runApp(const MyApp());
+import 'package:health_reminder/providers/input_data_provider.dart';
+import 'package:health_reminder/providers/step_count_provider.dart';
+import 'package:health_reminder/screens/splash_screen.dart';
+import 'package:provider/provider.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserDataProvider()),
+        ChangeNotifierProvider(create: (_) => StepCounterProvider())
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner:false,
-      home: const UserInputData()
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen()
     );
   }
 }
